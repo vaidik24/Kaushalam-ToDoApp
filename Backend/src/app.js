@@ -21,5 +21,10 @@ app.use(
   })
 );
 //import router
+import userRouter from "./routes/user.routes";
+import taskRouter from "./routes/task.routes";
+
+app.use("/api/user", userRouter);
+app.use("/api/task", taskRouter);
 
 export { app };

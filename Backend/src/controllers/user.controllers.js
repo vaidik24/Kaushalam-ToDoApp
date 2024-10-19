@@ -1,6 +1,6 @@
-import { User } from "../models/user.model.js";
+import { User } from "../models/user.models.js";
 
-const registerUser = asyncHandler(async (req, res) => {
+const registerUser = async (req, res) => {
   const { username, password, email } = req.body;
 
   if ([username, password, email].some((field) => field?.trim() === "")) {
@@ -25,9 +25,9 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Failed to create user" });
   }
   return res.status(200).json({ message: "User created" });
-});
+};
 
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = async (req, res) => {
   const { username, email, password } = req.body;
   if (!username && !email) {
     return res.status(400).json({ message: "Username or email is required" });
@@ -57,9 +57,9 @@ const loginUser = asyncHandler(async (req, res) => {
       accessToken,
       refreshToken,
     });
-});
+};
 
-const logoutUser = asyncHandler(async (req, res) => {
+const logoutUser = async (req, res) => {
   const userId = req.user._id;
   const user = await User.findById(userId);
   if (!user) {
@@ -80,14 +80,14 @@ const logoutUser = asyncHandler(async (req, res) => {
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
     .json({ message: "User logged out successfully" });
-});
+};
 
-const getCurrentUser = asyncHandler(async (req, res) => {
+const getCurrentUser = async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ message: "User not authenticated" });
   }
   return res.status(200).json({ user: req.user });
-});
+};
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
@@ -108,7 +108,7 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
   }
 };
 
-const refreshAccessToken = asyncHandler(async (req, res) => {
+const refreshAccessToken = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) {
     return res.status(401).json({ message: "Invalid refresh token" });
@@ -124,7 +124,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error("Error refreshing access token:", error);
   }
-});
+};
 
 export {
   registerUser,
