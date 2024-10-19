@@ -1,6 +1,10 @@
 import { Task } from "./task.model.js";
 
 const createTask = async (req, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   try {
     const { title, completed, priority, dueDate } = req.body;
 
@@ -17,6 +21,9 @@ const createTask = async (req, res) => {
 
     await newTask.save();
 
+    user.tasks.push(newTask._id);
+    await user.save();
+
     res
       .status(201)
       .json({ message: "Task created successfully", task: newTask });
@@ -28,6 +35,10 @@ const createTask = async (req, res) => {
 };
 
 const createTasks = async (req, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   try {
     const tasks = req.body;
 
@@ -43,35 +54,34 @@ const createTasks = async (req, res) => {
       }
 
       if (task.completed !== undefined && typeof task.completed !== "boolean") {
-        return res
-          .status(400)
-          .json({
-            error: `Task "${task.title}" has an invalid 'completed' field. It must be a boolean`,
-          });
+        return res.status(400).json({
+          error: `Task "${task.title}" has an invalid 'completed' field. It must be a boolean`,
+        });
       }
 
       if (task.priority && !["low", "medium", "high"].includes(task.priority)) {
-        return res
-          .status(400)
-          .json({
-            error: `Task "${task.title}" has an invalid 'priority'. It must be 'low', 'medium', or 'high'`,
-          });
+        return res.status(400).json({
+          error: `Task "${task.title}" has an invalid 'priority'. It must be 'low', 'medium', or 'high'`,
+        });
       }
 
       if (task.dueDate && isNaN(new Date(task.dueDate).getTime())) {
-        return res
-          .status(400)
-          .json({
-            error: `Task "${task.title}" has an invalid 'dueDate'. It must be a valid date`,
-          });
+        return res.status(400).json({
+          error: `Task "${task.title}" has an invalid 'dueDate'. It must be a valid date`,
+        });
       }
     }
 
     const createdTasks = await Task.insertMany(tasks);
 
-    res
-      .status(201)
-      .json({ message: "Tasks created successfully", tasks: createdTasks });
+    createdTasks.forEach((task) => user.tasks.push(task._id));
+
+    await user.save();
+
+    res.status(201).json({
+      message: "Tasks created successfully",
+      tasks: createdTasks,
+    });
   } catch (error) {
     res
       .status(500)
@@ -80,9 +90,20 @@ const createTasks = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   try {
     const { id } = req.params;
-    const { title, completed = false, priority, dueDate } = req.body;
+    const { title, completed, priority, dueDate } = req.body;
+
+    if (!user.tasks.includes(id)) {
+      return res
+        .status(403)
+        .json({ error: "Not authorized to update this task" });
+    }
 
     const updatedTask = await Task.findByIdAndUpdate(
       id,
@@ -105,17 +126,28 @@ const updateTask = async (req, res) => {
 };
 
 const getAllTasks = async (req, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   try {
-    const tasks = await Task.find();
+    if (!user.tasks || !user.tasks.length) {
+      return res.status(404).json({ message: "No tasks found for this user" });
+    }
+    const tasks = await Task.find({ _id: { $in: user.tasks } });
     res.status(200).json({ tasks });
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Error fetching tasks", details: error.message });
+      .json({ error: "Error getting tasks", details: error.message });
   }
 };
 
 const deleteTask = async (req, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   try {
     const { id } = req.params;
 
@@ -124,6 +156,9 @@ const deleteTask = async (req, res) => {
     if (!deletedTask) {
       return res.status(404).json({ error: "Task not found" });
     }
+
+    user.tasks = user.tasks.filter((taskId) => taskId.toString() !== id);
+    await user.save();
 
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {
@@ -134,8 +169,18 @@ const deleteTask = async (req, res) => {
 };
 
 const markAsComplete = async (req, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   try {
     const { id } = req.params;
+
+    if (!user.tasks.includes(id)) {
+      return res
+        .status(403)
+        .json({ error: "Not authorized to mark this task as complete" });
+    }
 
     const completedTask = await Task.findByIdAndUpdate(
       id,
@@ -159,15 +204,23 @@ const markAsComplete = async (req, res) => {
 };
 
 const markAsIncomplete = async (req, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   try {
     const { id } = req.params;
 
+    if (!user.tasks.includes(id)) {
+      return res
+        .status(403)
+        .json({ error: "Not authorized to mark this task as incomplete" });
+    }
     const incompleteTask = await Task.findByIdAndUpdate(
       id,
       { completed: false },
       { new: true }
     );
-
     if (!incompleteTask) {
       return res.status(404).json({ error: "Task not found" });
     }

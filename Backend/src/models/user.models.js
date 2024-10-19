@@ -26,6 +26,12 @@ const userSchema = new mongoose.Schema(
     refreshToken: {
       type: String,
     },
+    tasks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Task",
+      },
+    ],
   },
   { timestamps: true }
 );
