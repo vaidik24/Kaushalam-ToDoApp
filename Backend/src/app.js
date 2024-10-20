@@ -11,7 +11,8 @@ app.use(
 );
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:
+      "https://kaushalam-to-do-qidy3v9w8-vaidiks-projects-edb56f6f.vercel.app",
     credentials: true,
   })
 );

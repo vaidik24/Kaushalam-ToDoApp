@@ -36,9 +36,14 @@ const Navbar = () => {
             Logout
           </Link>
         ) : (
-          <Link to="/login" className="nav-link">
-            Login
-          </Link>
+          <div>
+            <Link to="/login" className="nav-link">
+              Login
+            </Link>
+            <Link to="/signup" className="nav-link">
+              Signup
+            </Link>
+          </div>
         )}
       </div>
     </nav>
