@@ -44,7 +44,6 @@ const loginUser = async (req, res) => {
     "-password -refreshToken"
   );
   const options = {
-    httpOnly: true,
     sameSite: "None",
     secure: false,
   };
