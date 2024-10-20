@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000/api/task";
+const API_URL = "https://kaushalam-todoapp.onrender.com/api/task";
 
 export const getAllTasks = async () => {
   const response = await axios.get(`${API_URL}/getall`, {
@@ -17,7 +17,6 @@ export const createTask = async (taskData) => {
 };
 
 export const updateTask = async (id, updatedData) => {
-  // console.log(id);
   const response = await axios.put(`${API_URL}/${id}`, updatedData, {
     withCredentials: true,
   });
