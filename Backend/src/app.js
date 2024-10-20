@@ -11,7 +11,7 @@ app.use(
 );
 app.use(
   cors({
-    origin: "https://kaushalam-to-do-app.vercel.app/",
+    origin: "https://kaushalam-to-do-app.vercel.app",
     credentials: true,
   })
 );
