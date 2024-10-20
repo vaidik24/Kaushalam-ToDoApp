@@ -8,7 +8,7 @@ import {
   markAsIncomplete,
   createTasks,
 } from "../controllers/task.controllers.js";
-import { verifyJWT } from "../middleware/authMiddleware.js";
+import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
 const taskRouter = Router();
 

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.models.js";
 
-export const verifyJWT = asyncHandler(async (req, _, next) => {
+export const verifyJWT = async (req, res, next) => {
   try {
     const accessToken =
       req.cookies?.accessToken ||
@@ -21,4 +21,4 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
     console.error(error);
     res.status(401).json({ message: "Invalid access token" });
   }
-});
+};

@@ -11,7 +11,8 @@ app.use(
 );
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: "http://localhost:5173",
+    credentials: true,
   })
 );
 app.use(cookieParser());
@@ -21,8 +22,8 @@ app.use(
   })
 );
 //import router
-import userRouter from "./routes/user.routes";
-import taskRouter from "./routes/task.routes";
+import userRouter from "./routes/user.routes.js";
+import taskRouter from "./routes/task.routes.js";
 
 app.use("/api/user", userRouter);
 app.use("/api/task", taskRouter);

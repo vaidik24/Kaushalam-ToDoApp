@@ -3,20 +3,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { getCurrentUser, logout } from "../services/auth.service";
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const loggedInUser = await getCurrentUser();
-      setUser(loggedInUser);
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        const loggedInUser = await getCurrentUser();
+        setAccessToken(loggedInUser);
+      }
     };
+
     fetchUser();
   }, []);
 
   const handleLogout = async () => {
     await logout();
-    setUser(null);
+    setAccessToken(null);
     navigate("/login");
   };
 
@@ -26,7 +30,7 @@ const Navbar = () => {
         To-Do App
       </Link>
       <div className="nav-links">
-        {user ? (
+        {accessToken ? (
           <div className="user-menu">
             <span className="user-icon">👤</span>
             <div className="dropdown">

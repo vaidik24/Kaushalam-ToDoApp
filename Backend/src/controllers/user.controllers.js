@@ -28,12 +28,12 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { username, email, password } = req.body;
-  if (!username && !email) {
-    return res.status(400).json({ message: "Username or email is required" });
+  const { email, password } = req.body;
+  if (!email) {
+    return res.status(400).json({ message: "email is required" });
   }
   const user = await User.findOne({
-    $or: [{ username }, { email }],
+    email,
   });
   if (!user || !(await user.isPasswordCorrect(password))) {
     return res.status(401).json({ message: "Invalid credentials" });
@@ -45,18 +45,13 @@ const loginUser = async (req, res) => {
   );
   const options = {
     httpOnly: true,
-    secure: true,
   };
-  return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json({
-      message: "User logged in successfully",
-      user: loggedUser,
-      accessToken,
-      refreshToken,
-    });
+  return res.status(200).cookie("accessToken", accessToken, options).json({
+    message: "User logged in successfully",
+    user: loggedUser,
+    accessToken,
+    refreshToken,
+  });
 };
 
 const logoutUser = async (req, res) => {

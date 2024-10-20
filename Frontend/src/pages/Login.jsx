@@ -14,7 +14,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await loginUser(credentials);
+      console.log(await loginUser(credentials));
       navigate("/tasks");
     } catch (error) {
       console.log(error);

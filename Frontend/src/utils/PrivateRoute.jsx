@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
 
 const useAuth = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  return user ? true : false;
+  const accessToken = localStorage.getItem("accessToken");
+  return accessToken ? true : false;
 };
 
 const ProtectedRoute = ({ children }) => {
