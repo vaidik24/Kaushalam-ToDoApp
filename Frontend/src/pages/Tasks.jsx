@@ -1,0 +1,64 @@
+import { useState, useEffect } from "react";
+import TaskList from "../components/TaskList";
+import AddTaskForm from "../components/AddTaskForm"; // Import the AddTaskForm
+import { getAllTasks } from "../services/task.service";
+
+const Tasks = () => {
+  const [tasks, setTasks] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Simulated authentication check (you might fetch this from a context or a prop)
+  useEffect(() => {
+    const checkUserAuth = () => {
+      // Replace this with your actual login check logic
+      const user = localStorage.getItem("user"); // Example of checking for a user in localStorage
+      setIsLoggedIn(!!user);
+    };
+
+    checkUserAuth();
+  }, []);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      if (isLoggedIn) {
+        const taskData = await getAllTasks();
+        setTasks(taskData);
+      }
+    };
+    fetchTasks();
+  }, [isLoggedIn]);
+
+  const handleTaskAdded = (newTask) => {
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+  };
+
+  const handleTaskUpdated = (updatedTask) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task._id === updatedTask._id ? updatedTask : task
+      )
+    );
+  };
+
+  const handleTaskDeleted = (taskId) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
+  };
+
+  return (
+    <div className="tasks-page">
+      <h1>Your Tasks</h1>
+      <AddTaskForm onTaskAdded={handleTaskAdded} />
+      {tasks != [] ? (
+        <TaskList
+          tasks={tasks}
+          onTaskUpdated={handleTaskUpdated}
+          onTaskDeleted={handleTaskDeleted}
+        />
+      ) : (
+        <p>No tasks available. Please add some tasks.</p> // Message when no tasks are present
+      )}
+    </div>
+  );
+};
+
+export default Tasks;
