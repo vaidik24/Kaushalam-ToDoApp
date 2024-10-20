@@ -1,0 +1,32 @@
+.tasks-page {
+  background-color: #1e1e1e; /* Match the home container's background */
+  color: #e0e0e0; /* Text color */
+  min-height: 100vh; /* Full height to fit the page */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center align horizontally */
+  justify-content: flex-start; /* Align to the start vertically */
+  padding: 2rem; /* Padding around the container */
+}
+
+h1 {
+  font-size: 2.5rem; /* Heading size */
+  margin-bottom: 2rem; /* Space below the heading */
+}
+
+.no-tasks-message {
+  color: #cccccc; /* Color for the message when no tasks are available */
+  font-size: 1.2rem; /* Font size for the message */
+  text-align: center; /* Center align the message */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem; /* Smaller heading on small screens */
+  }
+
+  .no-tasks-message {
+    font-size: 1rem; /* Smaller message font size on small screens */
+  }
+}

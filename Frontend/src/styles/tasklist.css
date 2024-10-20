@@ -1,0 +1,25 @@
+.task-list {
+  width: 100%; /* Full width to fill the parent container */
+  display: flex;
+  flex-direction: column; /* Stack tasks vertically */
+  align-items: center; /* Center align tasks horizontally */
+  gap: 1rem; /* Space between each task item */
+  padding: 1rem; /* Padding around the task list */
+}
+
+.task-list .task-item {
+  background-color: #2c2c2c; /* Match the home content background */
+  color: #e0e0e0; /* Text color */
+  padding: 1rem; /* Padding inside each task item */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+  width: 100%; /* Full width of the container */
+  max-width: 600px; /* Max width for each task item */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .task-list .task-item {
+    padding: 0.75rem; /* Less padding on smaller screens */
+  }
+}

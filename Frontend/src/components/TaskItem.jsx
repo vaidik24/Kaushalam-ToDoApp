@@ -5,7 +5,8 @@ import {
   deleteTask,
   markTaskAsComplete,
   markTaskAsIncomplete,
-} from "../services/task.service"; // Adjust import
+} from "../services/task.service";
+import "../styles/taskitem.css";
 
 const TaskItem = ({ task, onTaskUpdated, onTaskDeleted }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -31,6 +32,7 @@ const TaskItem = ({ task, onTaskUpdated, onTaskDeleted }) => {
     setComplete((prevComplete) => !prevComplete);
     onTaskUpdated(completedTask); // Update the task state after marking as complete
   };
+
   const handleIncomplete = async () => {
     const IncompletedTask = await markTaskAsIncomplete(task._id);
     setComplete((prevComplete) => !prevComplete);
@@ -40,14 +42,16 @@ const TaskItem = ({ task, onTaskUpdated, onTaskDeleted }) => {
   return (
     <div className={`task-item ${task.completed ? "completed" : ""}`}>
       {isEditing ? (
-        <>
+        <div className="task-item-editing">
           <input
+            className="task-item-input"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
           <select
+            className="task-item-select"
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
           >
@@ -56,28 +60,49 @@ const TaskItem = ({ task, onTaskUpdated, onTaskDeleted }) => {
             <option value="high">High</option>
           </select>
           <input
+            className="task-item-date"
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
           />
-          <button onClick={handleUpdate}>Save</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
-        </>
+          <button className="task-item-button" onClick={handleUpdate}>
+            Save
+          </button>
+          <button
+            className="task-item-button cancel"
+            onClick={() => setIsEditing(false)}
+          >
+            Cancel
+          </button>
+        </div>
       ) : (
-        <>
-          <h2>{task.title}</h2>
-          <p>Priority: {task.priority}</p>
-          <p>Due Date: {new Date(task.dueDate).toLocaleDateString()}</p>
-          <p>Status: {complete ? "Completed" : "Incomplete"}</p>
-          {complete ? (
-            <button onClick={handleComplete}>Mark as Incomplete</button>
-          ) : (
-            <button onClick={handleIncomplete}>Mark as Complete</button>
-          )}
-
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-          <button onClick={handleDelete}>Delete</button>
-        </>
+        <div className="task-item">
+          <div className="item">
+            <h2 className="task-item-title">{task.title}</h2>
+            <p className="task-item-priority">Priority: {task.priority}</p>
+            <p className="task-item-due-date">
+              Due Date: {new Date(task.dueDate).toLocaleDateString()}
+            </p>
+            <p className="task-item-status">
+              Status: {complete ? "Completed" : "Incomplete"}
+            </p>
+            <button
+              className="task-item-button"
+              onClick={complete ? handleIncomplete : handleComplete}
+            >
+              {complete ? "Mark as Incomplete" : "Mark as Complete"}
+            </button>
+            <button
+              className="task-item-button edit"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit
+            </button>
+            <button className="task-item-button delete" onClick={handleDelete}>
+              Delete
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

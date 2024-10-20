@@ -1,0 +1,71 @@
+.navbar {
+  background-color: #1e1e1e;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.9%;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: #e0e0e0; /* Light gray for logo text */
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  color: #2287fc;
+  margin-left: 1rem;
+  text-decoration: none;
+  font-size: 1.15rem;
+}
+
+.nav-link:hover {
+  color: #53a6f8; /* Darker blue for hover effect */
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.user-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+  color: #e0e0e0; /* Light gray for user icon */
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-button {
+  background-color: #4a90e2; /* Accent color for buttons */
+  color: #e0e0e0; /* Light text on buttons */
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-left: 1rem;
+  font-size: 1rem;
+}
+
+.nav-button:hover {
+  background-color: #357abd; /* Darker accent for hover */
+}
+
+/* Responsive Navbar */
+@media screen and (max-width: 290px) {
+  .logo {
+    font-size: 1rem;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+  }
+}

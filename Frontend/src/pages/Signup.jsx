@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/auth.service";
+import "../styles/signup.css";
 
 const Signup = () => {
   const [credentials, setCredentials] = useState({
@@ -28,32 +29,39 @@ const Signup = () => {
 
   return (
     <div className="signup-page">
-      <h1>Signup</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={credentials.username}
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={credentials.email}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={credentials.password}
-          onChange={handleChange}
-        />
-        {error && <p className="error">{error}</p>}
-        <button type="submit">Signup</button>
-      </form>
+      <div className="signup-container">
+        <h1>Signup</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={credentials.username}
+            onChange={handleChange}
+            className="signup-input"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={credentials.email}
+            onChange={handleChange}
+            className="signup-input"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={credentials.password}
+            onChange={handleChange}
+            className="signup-input"
+          />
+          {error && <p className="error">{error}</p>}
+          <button type="submit" className="btn-signup">
+            Signup
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

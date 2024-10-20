@@ -1,0 +1,46 @@
+.task-item {
+  background-color: #2c2c2c; /* Background color */
+  color: #e0e0e0; /* Text color */
+  padding: 1rem; /* Padding around the task item */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+  display: flex; /* Flexbox for layout */
+  align-items: flex-start; /* Align children to the start */
+  gap: 0.5rem; /* Space between elements */
+  width: 100%; /* Full width of the parent */
+  max-width: 600px; /* Limit maximum width */
+  margin: 0 auto; /* Centering the task item */
+}
+
+.task-item.completed {
+  opacity: 0.6; /* Visual cue for completed tasks */
+}
+
+.task-item button {
+  background-color: #4a90e2; /* Button background */
+  color: #ffffff; /* Button text color */
+  border: none; /* No border */
+  padding: 0.5rem 1rem; /* Padding for buttons */
+  border-radius: 5px; /* Rounded button corners */
+  cursor: pointer; /* Pointer on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+.task-item button:hover {
+  background-color: #357abd; /* Darker shade on hover */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .task-item {
+    padding: 0.5rem; /* Less padding on smaller screens */
+  }
+
+  .task-item h2 {
+    font-size: 1.5rem; /* Adjust title font size */
+  }
+
+  .task-item p {
+    font-size: 1rem; /* Adjust paragraph font size */
+  }
+}

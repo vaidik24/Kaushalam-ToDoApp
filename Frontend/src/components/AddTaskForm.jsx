@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createTask } from "../services/task.service";
 import PropTypes from "prop-types";
+import "../styles/taskform.css";
 
 const AddTaskForm = ({ onTaskAdded }) => {
   const [title, setTitle] = useState("");
@@ -45,45 +46,49 @@ const AddTaskForm = ({ onTaskAdded }) => {
   return (
     <div className="add-task-form">
       <h2>Add New Task</h2>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Task Title:</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="priority">Priority:</label>
-          <select
-            id="priority"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-          >
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="dueDate">Due Date:</label>
-          <input
-            type="date"
-            id="dueDate"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            min={today}
-            required
-          />
-        </div>
-        <button type="submit" className="submit-button">
-          Add Task
-        </button>
-      </form>
+      <div>
+        {error && <p className="error-message">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="form">
+            <div className="form-group">
+              <input
+                type="text"
+                id="title"
+                placeholder="Task Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <select
+                id="priority"
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+                placeholder="Priority"
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <input
+                type="date"
+                id="dueDate"
+                value={dueDate}
+                placeholder="Due Date"
+                onChange={(e) => setDueDate(e.target.value)}
+                min={today}
+                required
+              />
+            </div>
+            <button type="submit" className="submit-button">
+              Add Task
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import TaskList from "../components/TaskList";
 import AddTaskForm from "../components/AddTaskForm"; // Import the AddTaskForm
 import { getAllTasks } from "../services/task.service";
+import "../styles/task.css";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -42,18 +43,21 @@ const Tasks = () => {
   const handleTaskDeleted = (taskId) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
   };
+
   return (
     <div className="tasks-page">
       <h1>Your Tasks</h1>
       <AddTaskForm onTaskAdded={handleTaskAdded} />
-      {tasks != [] ? (
+      {tasks.length > 0 ? ( // Change to check for length instead of using != []
         <TaskList
           tasks={tasks}
           onTaskUpdated={handleTaskUpdated}
           onTaskDeleted={handleTaskDeleted}
         />
       ) : (
-        <p>No tasks available. Please add some tasks.</p> // Message when no tasks are present
+        <p className="no-tasks-message">
+          No tasks available. Please add some tasks.
+        </p> // Message when no tasks are present
       )}
     </div>
   );
