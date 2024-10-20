@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getCurrentUser, logout } from "../services/auth.service";
+import { logout } from "../services/auth.service";
 
 const Navbar = () => {
   const [accessToken, setAccessToken] = useState(null);
@@ -10,8 +10,7 @@ const Navbar = () => {
     const fetchUser = async () => {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
-        const loggedInUser = await getCurrentUser();
-        setAccessToken(loggedInUser);
+        setAccessToken(accessToken);
       }
     };
 

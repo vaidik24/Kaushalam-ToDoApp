@@ -15,7 +15,7 @@ const TaskItem = ({ task, onTaskUpdated, onTaskDeleted }) => {
   const handleUpdate = async () => {
     const updatedData = { title, priority, dueDate };
     const updatedTask = await updateTask(task._id, updatedData);
-    onTaskUpdated(updatedTask); // Callback to parent to update the task list
+    onTaskUpdated(updatedTask);
     setIsEditing(false);
   };
 

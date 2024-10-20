@@ -7,12 +7,11 @@ const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Simulated authentication check (you might fetch this from a context or a prop)
   useEffect(() => {
     const checkUserAuth = () => {
       // Replace this with your actual login check logic
-      const user = localStorage.getItem("user"); // Example of checking for a user in localStorage
-      setIsLoggedIn(!!user);
+      const accessToken = localStorage.getItem("accessToken"); // Example of checking for a user in localStorage
+      setIsLoggedIn(!!accessToken);
     };
 
     checkUserAuth();
@@ -43,7 +42,6 @@ const Tasks = () => {
   const handleTaskDeleted = (taskId) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
   };
-
   return (
     <div className="tasks-page">
       <h1>Your Tasks</h1>

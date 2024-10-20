@@ -97,13 +97,8 @@ const updateTask = async (req, res) => {
 
   try {
     const { id } = req.params;
+    console.log("param is", req.params);
     const { title, completed, priority, dueDate } = req.body;
-
-    if (!user.tasks.includes(id)) {
-      return res
-        .status(403)
-        .json({ error: "Not authorized to update this task" });
-    }
 
     const updatedTask = await Task.findByIdAndUpdate(
       id,
@@ -127,6 +122,7 @@ const updateTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
   const user = req.user;
+
   if (!user) {
     return res.status(401).json({ error: "Unauthorized" });
   }
