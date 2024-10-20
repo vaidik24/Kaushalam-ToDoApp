@@ -16,7 +16,6 @@ export const createTask = async (taskData) => {
   return response.data;
 };
 
-// Update task
 export const updateTask = async (id, updatedData) => {
   // console.log(id);
   const response = await axios.put(`${API_URL}/${id}`, updatedData, {
@@ -25,18 +24,27 @@ export const updateTask = async (id, updatedData) => {
   return response.data;
 };
 
-// Delete task
 export const deleteTask = async (taskId) => {
-  const response = await axios.delete(`${API_URL}/delete/${taskId}`, {
+  const response = await axios.delete(`${API_URL}/${taskId}`, {
     withCredentials: true,
   });
   return response.data;
 };
 
-// Mark task as complete
 export const markTaskAsComplete = async (taskId) => {
   const response = await axios.patch(
-    `${API_URL}/complete/${taskId}`,
+    `${API_URL}/${taskId}/complete`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+export const markTaskAsIncomplete = async (taskId) => {
+  const response = await axios.patch(
+    `${API_URL}/${taskId}/incomplete`,
     {},
     {
       withCredentials: true,

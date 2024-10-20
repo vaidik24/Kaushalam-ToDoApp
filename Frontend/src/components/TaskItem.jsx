@@ -4,6 +4,7 @@ import {
   updateTask,
   deleteTask,
   markTaskAsComplete,
+  markTaskAsIncomplete,
 } from "../services/task.service"; // Adjust import
 
 const TaskItem = ({ task, onTaskUpdated, onTaskDeleted }) => {
@@ -11,6 +12,7 @@ const TaskItem = ({ task, onTaskUpdated, onTaskDeleted }) => {
   const [title, setTitle] = useState(task.title);
   const [priority, setPriority] = useState(task.priority);
   const [dueDate, setDueDate] = useState(task.dueDate.split("T")[0]); // Format date for input
+  const [complete, setComplete] = useState(task.completed);
 
   const handleUpdate = async () => {
     const updatedData = { title, priority, dueDate };
@@ -26,7 +28,13 @@ const TaskItem = ({ task, onTaskUpdated, onTaskDeleted }) => {
 
   const handleComplete = async () => {
     const completedTask = await markTaskAsComplete(task._id);
+    setComplete((prevComplete) => !prevComplete);
     onTaskUpdated(completedTask); // Update the task state after marking as complete
+  };
+  const handleIncomplete = async () => {
+    const IncompletedTask = await markTaskAsIncomplete(task._id);
+    setComplete((prevComplete) => !prevComplete);
+    onTaskUpdated(IncompletedTask); // Update the task state after marking as complete
   };
 
   return (
@@ -60,10 +68,13 @@ const TaskItem = ({ task, onTaskUpdated, onTaskDeleted }) => {
           <h2>{task.title}</h2>
           <p>Priority: {task.priority}</p>
           <p>Due Date: {new Date(task.dueDate).toLocaleDateString()}</p>
-          <p>Status: {task.completed ? "Completed" : "Incomplete"}</p>
-          <button onClick={handleComplete} disabled={task.completed}>
-            Mark as Complete
-          </button>
+          <p>Status: {complete ? "Completed" : "Incomplete"}</p>
+          {complete ? (
+            <button onClick={handleComplete}>Mark as Incomplete</button>
+          ) : (
+            <button onClick={handleIncomplete}>Mark as Complete</button>
+          )}
+
           <button onClick={() => setIsEditing(true)}>Edit</button>
           <button onClick={handleDelete}>Delete</button>
         </>
