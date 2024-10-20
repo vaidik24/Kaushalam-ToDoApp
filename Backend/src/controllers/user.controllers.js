@@ -46,7 +46,7 @@ const loginUser = async (req, res) => {
   const options = {
     httpOnly: false,
     sameSite: "None",
-    secure: false,
+    secure: true,
   };
   return res.status(200).cookie("accessToken", accessToken, options).json({
     message: "User logged in successfully",
